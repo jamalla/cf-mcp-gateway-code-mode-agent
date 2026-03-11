@@ -1,4 +1,4 @@
-name: Deploy Agent Web to Cloudflare Worker
+name: Deploy Agent Web to Cloudflare Pages
 
 on:
   workflow_dispatch:
