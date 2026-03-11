@@ -1,5 +1,13 @@
-export async function getJson(url: string): Promise<unknown> {
-  const res = await fetch(url, {
+export type FetchFn = (
+  input: RequestInfo | URL,
+  init?: RequestInit
+) => Promise<Response>;
+
+export async function getJson(
+  url: string,
+  fetchFn: FetchFn = fetch
+): Promise<unknown> {
+  const res = await fetchFn(url, {
     headers: {
       accept: "application/json"
     }
@@ -13,8 +21,12 @@ export async function getJson(url: string): Promise<unknown> {
   return res.json();
 }
 
-export async function postJson(url: string, payload: unknown): Promise<unknown> {
-  const res = await fetch(url, {
+export async function postJson(
+  url: string,
+  payload: unknown,
+  fetchFn: FetchFn = fetch
+): Promise<unknown> {
+  const res = await fetchFn(url, {
     method: "POST",
     headers: {
       "content-type": "application/json",

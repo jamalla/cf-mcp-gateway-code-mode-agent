@@ -1,5 +1,15 @@
 import type { ExecuteRequest } from "./schema";
-import { getJson, postJson } from "./http";
+import { getJson, postJson, type FetchFn } from "./http";
+
+type ServiceBinding = {
+  fetch: FetchFn;
+};
+
+export type ToolServiceBindings = {
+  PRODUCTS_SERVICE?: ServiceBinding;
+  FX_SERVICE?: ServiceBinding;
+  CART_INTEL_SERVICE?: ServiceBinding;
+};
 
 type ProductRecord = {
   id: string | number;
@@ -26,7 +36,8 @@ type MockExecutionResult = {
 };
 
 export async function runMockExecution(
-  payload: ExecuteRequest
+  payload: ExecuteRequest,
+  bindings?: ToolServiceBindings
 ): Promise<MockExecutionResult> {
   const trace: string[] = [];
   const toolResults: Record<string, unknown> = {};
@@ -40,7 +51,9 @@ export async function runMockExecution(
     if (!base) throw new Error("Missing toolBaseUrls.products");
 
     trace.push("Calling products tool");
-    productsData = await getJson(`${base}/products?limit=8`);
+    const productsUrl = `${base}/products?limit=8`;
+    const productsFetchFn = getToolFetchFn("products", productsUrl, bindings);
+    productsData = await getJson(getFetchUrl(productsUrl), productsFetchFn);
     toolResults.products = productsData;
   }
 
@@ -49,7 +62,9 @@ export async function runMockExecution(
     if (!base) throw new Error("Missing toolBaseUrls.fx");
 
     trace.push("Calling fx tool");
-    fxData = await getJson(`${base}/rates?base=USD&symbols=MYR,SAR,EUR`);
+    const fxUrl = `${base}/rates?base=USD&symbols=MYR,SAR,EUR`;
+    const fxFetchFn = getToolFetchFn("fx", fxUrl, bindings);
+    fxData = await getJson(getFetchUrl(fxUrl), fxFetchFn);
     toolResults.fx = fxData;
   }
 
@@ -76,7 +91,10 @@ export async function runMockExecution(
 
     const rates = ((fxData as any)?.data?.rates ?? {}) as Record<string, number>;
 
-    finalResult = await postJson(`${base}/analyze`, {
+    const analyzeUrl = `${base}/analyze`;
+    const cartFetchFn = getToolFetchFn("cart-intel", analyzeUrl, bindings);
+
+    finalResult = await postJson(getFetchUrl(analyzeUrl), {
       targetCurrency: "MYR",
       rates,
       preferences: {
@@ -86,7 +104,7 @@ export async function runMockExecution(
         preferredCategory: "smartphones"
       },
       products: candidateProducts
-    });
+    }, cartFetchFn);
 
     toolResults["cart-intel"] = finalResult;
   } else {
@@ -109,4 +127,33 @@ export async function runMockExecution(
     toolResults,
     finalResult
   };
+}
+
+function getFetchUrl(rawUrl: string): string {
+  if (!rawUrl.includes("workers.dev")) return rawUrl;
+
+  const parsed = new URL(rawUrl);
+  return `https://tool.internal${parsed.pathname}${parsed.search}`;
+}
+
+function getToolFetchFn(
+  tool: "products" | "fx" | "cart-intel",
+  rawUrl: string,
+  bindings?: ToolServiceBindings
+): FetchFn {
+  if (!rawUrl.includes("workers.dev") || !bindings) return fetch;
+
+  if (tool === "products" && bindings.PRODUCTS_SERVICE) {
+    return bindings.PRODUCTS_SERVICE.fetch.bind(bindings.PRODUCTS_SERVICE);
+  }
+
+  if (tool === "fx" && bindings.FX_SERVICE) {
+    return bindings.FX_SERVICE.fetch.bind(bindings.FX_SERVICE);
+  }
+
+  if (tool === "cart-intel" && bindings.CART_INTEL_SERVICE) {
+    return bindings.CART_INTEL_SERVICE.fetch.bind(bindings.CART_INTEL_SERVICE);
+  }
+
+  return fetch;
 }

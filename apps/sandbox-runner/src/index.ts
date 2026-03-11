@@ -1,13 +1,32 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { zValidator } from "@hono/zod-validator";
 import { ExecuteRequestSchema } from "./lib/schema";
 import { runMockExecution } from "./lib/mock-executor";
 
 type Bindings = {
   EXECUTOR_MODE: string;
+  PRODUCTS_SERVICE?: {
+    fetch: typeof fetch;
+  };
+  FX_SERVICE?: {
+    fetch: typeof fetch;
+  };
+  CART_INTEL_SERVICE?: {
+    fetch: typeof fetch;
+  };
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
+
+app.use(
+  "*",
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "POST", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"]
+  })
+);
 
 app.get("/health", (c) => {
   return c.json({
@@ -49,7 +68,7 @@ app.post(
     }
 
     try {
-      const result = await runMockExecution(payload);
+      const result = await runMockExecution(payload, c.env);
       return c.json(result);
     } catch (error) {
       const message =
