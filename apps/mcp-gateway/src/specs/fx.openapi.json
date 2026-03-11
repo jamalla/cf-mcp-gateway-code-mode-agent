@@ -3,17 +3,17 @@
   "info": {
     "title": "FX Rates Tool API",
     "version": "1.0.0",
-    "description": "Fetches exchange rates for product price normalization."
+    "description": "Retrieves exchange rates and supported currencies for price normalization."
   },
   "servers": [
     {
-      "url": "https://tool-fx.example.workers.dev"
+      "url": "https://cf-tool-fx.example.workers.dev"
     }
   ],
   "paths": {
     "/rates": {
       "get": {
-        "summary": "Get exchange rates",
+        "summary": "Get latest exchange rates",
         "operationId": "getRates",
         "parameters": [
           {
@@ -22,13 +22,33 @@
             "required": false,
             "schema": {
               "type": "string",
-              "default": "USD"
+              "default": "EUR"
+            }
+          },
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated currency codes, e.g. USD,MYR,SAR"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "Rates retrieved successfully"
+          }
+        }
+      }
+    },
+    "/currencies": {
+      "get": {
+        "summary": "List supported currencies",
+        "operationId": "getCurrencies",
+        "responses": {
+          "200": {
+            "description": "Currencies retrieved successfully"
           }
         }
       }

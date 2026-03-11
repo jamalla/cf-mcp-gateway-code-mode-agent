@@ -34,6 +34,22 @@ importers:
         specifier: ^4.6.0
         version: 4.72.0(@cloudflare/workers-types@4.20260310.1)
 
+  apps/tool-fx:
+    dependencies:
+      hono:
+        specifier: ^4.7.4
+        version: 4.12.7
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20260303.0
+        version: 4.20260310.1
+      typescript:
+        specifier: ^5.8.2
+        version: 5.9.3
+      wrangler:
+        specifier: ^4.6.0
+        version: 4.72.0(@cloudflare/workers-types@4.20260310.1)
+
   apps/tool-products:
     dependencies:
       hono:
