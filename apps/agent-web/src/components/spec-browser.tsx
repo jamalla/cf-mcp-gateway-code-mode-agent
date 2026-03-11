@@ -47,18 +47,18 @@ export function SpecBrowser() {
   };
 
   if (loading) {
-    return <div className="rounded-3xl border border-stone-300 bg-white p-4">Loading specs...</div>;
+    return <div className="rounded-3xl border border-stone-300 bg-white p-5">Loading specs...</div>;
   }
 
   if (error) {
-    return <div className="rounded-3xl border border-red-400 bg-white p-4 text-red-700">{error}</div>;
+    return <div className="rounded-3xl border border-red-400 bg-white p-5 text-red-700">{error}</div>;
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
-      <div className="rounded-3xl border border-stone-300 bg-white p-4 shadow-sm">
+    <div className="grid gap-5 lg:grid-cols-[minmax(260px,320px)_minmax(0,1fr)]">
+      <div className="rounded-3xl border border-stone-300 bg-white p-5 shadow-sm">
         <h2 className="mb-3 text-lg font-semibold text-stone-900">Gateway Specs</h2>
-        <div className="space-y-3">
+        <div className="max-h-[420px] space-y-3 overflow-auto pr-1">
           {tools.map((tool) => (
             <button
               key={tool.key}
@@ -79,9 +79,9 @@ export function SpecBrowser() {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-stone-300 bg-white p-4 shadow-sm">
+      <div className="rounded-3xl border border-stone-300 bg-white p-5 shadow-sm">
         <h2 className="mb-3 text-lg font-semibold text-stone-900">Selected OpenAPI Spec</h2>
-        <pre className="max-h-[600px] overflow-auto rounded-2xl bg-stone-950 p-4 text-xs text-emerald-300">
+        <pre className="h-[520px] overflow-auto rounded-2xl bg-stone-950 p-4 text-xs leading-5 text-emerald-300 lg:h-[620px]">
           {selectedSpec}
         </pre>
       </div>

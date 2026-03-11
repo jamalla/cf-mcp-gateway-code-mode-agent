@@ -25,16 +25,16 @@ export function MockTaskPlanner() {
   }, [prompt]);
 
   return (
-    <div className="rounded-3xl border border-stone-300 bg-white p-4 shadow-sm">
+    <div className="rounded-3xl border border-stone-300 bg-white p-5 shadow-sm">
       <h2 className="mb-3 text-lg font-semibold text-stone-900">Mock Task Planner</h2>
 
       <textarea
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        className="min-h-[120px] w-full rounded-2xl border border-stone-300 bg-stone-50 p-3 text-stone-900 outline-none focus:border-stone-900"
+        className="min-h-[110px] w-full rounded-2xl border border-stone-300 bg-stone-50 p-3 text-stone-900 outline-none focus:border-stone-900"
       />
 
-      <div className="mt-4 rounded-2xl bg-stone-100 p-4">
+      <div className="mt-4 max-h-[340px] overflow-auto rounded-2xl bg-stone-100 p-4">
         <div className="mb-2 font-medium text-stone-900">Execution Mode</div>
         <div className="mb-4 text-sm text-stone-700">{plan.executionMode}</div>
 
@@ -42,7 +42,7 @@ export function MockTaskPlanner() {
         <div className="mb-4 text-sm text-stone-700">{plan.requiredTools.join(", ")}</div>
 
         <div className="mb-2 font-medium text-stone-900">Planned Steps</div>
-        <ol className="list-decimal space-y-1 pl-5 text-sm text-stone-700">
+        <ol className="list-decimal space-y-1.5 pl-5 text-sm leading-6 text-stone-700">
           {plan.steps.map((step) => (
             <li key={step}>{step}</li>
           ))}
