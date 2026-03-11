@@ -12,9 +12,39 @@ export type ToolSpecListResponse = {
   tools: ToolSpecListItem[];
 };
 
-export type MockTaskPlan = {
-  userGoal: string;
-  steps: string[];
-  requiredTools: string[];
-  executionMode: "code-mode";
+export type AgentPlanResponse = {
+  ok: boolean;
+  agent: string;
+  model: string;
+  mode: string;
+  input: {
+    prompt: string;
+    toolSpecCount: number;
+  };
+  plan: {
+    selectedTools: string[];
+    steps: string[];
+  };
+  artifacts: {
+    language: string;
+    generatedCode: string;
+  };
+};
+
+export type SandboxExecuteResponse = {
+  ok: boolean;
+  executionMode: string;
+  selectedTools: string[];
+  trace: string[];
+  artifacts: {
+    generatedCode: string;
+  };
+  toolResults: Record<string, unknown>;
+  finalResult: unknown;
+};
+
+export type EndToEndRunResult = {
+  specs: ToolSpecListItem[];
+  plan: AgentPlanResponse;
+  execution: SandboxExecuteResponse;
 };

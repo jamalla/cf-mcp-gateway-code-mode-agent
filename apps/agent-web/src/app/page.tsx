@@ -1,22 +1,23 @@
 import { CopilotShell } from "@/components/copilot-shell";
 import { MockTaskPlanner } from "@/components/mock-task-planner";
+import { RunConsole } from "@/components/run-console";
 import { SpecBrowser } from "@/components/spec-browser";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#f7f2e8_0%,#f4f4f0_45%,#ffffff_100%)] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-      <div className="mx-auto max-w-[1400px] space-y-6 lg:space-y-8">
-        <header className="rounded-3xl border border-stone-300 bg-white/80 p-6 shadow-sm backdrop-blur">
-          <h1 className="text-3xl font-bold text-stone-950">
-            MCP Gateway + Code Mode Agent Demo
-          </h1>
-          <p className="mt-2 max-w-3xl text-stone-600">
-            Inspect tool specs, simulate task planning, and prepare the UI shell
-            for the future Python agent runtime.
+    <main className="min-h-screen bg-white p-6">
+      <div className="mx-auto max-w-7xl space-y-6">
+        <header className="rounded-2xl border p-6">
+          <h1 className="text-3xl font-bold">MCP Gateway + Code Mode Agent Demo</h1>
+          <p className="mt-2 text-gray-600">
+            Inspect specs, generate a plan, execute through the sandbox runner,
+            and review the final output.
           </p>
         </header>
 
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_380px] 2xl:grid-cols-[minmax(0,1.55fr)_420px]">
+        <RunConsole />
+
+        <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
           <SpecBrowser />
           <div className="space-y-6">
             <MockTaskPlanner />
