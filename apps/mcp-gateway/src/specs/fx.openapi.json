@@ -1,0 +1,37 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FX Rates Tool API",
+    "version": "1.0.0",
+    "description": "Fetches exchange rates for product price normalization."
+  },
+  "servers": [
+    {
+      "url": "https://tool-fx.example.workers.dev"
+    }
+  ],
+  "paths": {
+    "/rates": {
+      "get": {
+        "summary": "Get exchange rates",
+        "operationId": "getRates",
+        "parameters": [
+          {
+            "name": "base",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "USD"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rates retrieved successfully"
+          }
+        }
+      }
+    }
+  }
+}

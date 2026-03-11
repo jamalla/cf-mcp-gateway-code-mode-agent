@@ -1,0 +1,36 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Cart Intelligence Tool API",
+    "version": "1.0.0",
+    "description": "Analyzes products and ranks a shortlist for demo scenarios."
+  },
+  "servers": [
+    {
+      "url": "https://tool-cart-intel.example.workers.dev"
+    }
+  ],
+  "paths": {
+    "/analyze": {
+      "post": {
+        "summary": "Analyze candidate products",
+        "operationId": "analyzeProducts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analysis completed successfully"
+          }
+        }
+      }
+    }
+  }
+}

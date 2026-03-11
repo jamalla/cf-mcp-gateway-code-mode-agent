@@ -1,0 +1,8 @@
+{
+  "name": "cf-mcp-gateway",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-03-11",
+  "observability": {
+    "enabled": true
+  }
+}
