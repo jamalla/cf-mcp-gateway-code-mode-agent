@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { TOOL_SPECS } from "./lib/spec-index";
 import productsSpec from "./specs/products.openapi.json";
 import fxSpec from "./specs/fx.openapi.json";
@@ -7,6 +8,15 @@ import cartIntelSpec from "./specs/cart-intel.openapi.json";
 type Bindings = Record<string, never>;
 
 const app = new Hono<{ Bindings: Bindings }>();
+
+app.use(
+  "*",
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"]
+  })
+);
 
 const specMap: Record<string, unknown> = {
   products: productsSpec,
