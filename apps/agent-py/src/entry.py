@@ -178,6 +178,22 @@ class Default(WorkerEntrypoint):
             if method == "OPTIONS":
                 return json_response({"ok": True})
 
+            if method == "GET" and path in ("/", ""):
+                base_url = url[:url.find("/", url.find("://") + 3)]
+                return json_response(
+                    {
+                        "ok": True,
+                        "service": get_env_value(self.env, "AGENT_NAME", "code-mode-agent-py"),
+                        "definition": "Contract-first planning agent for code-mode MCP flows.",
+                        "goal": "Receive a user prompt and tool specs, select the relevant tools, and emit a TypeScript execution artifact for the sandbox runner.",
+                        "flowPosition": "Step 2 of 3 — called by agent-web after gateway spec discovery, before sandbox-runner execution.",
+                        "links": {
+                            "health": f"{base_url}/health",
+                            "plan": f"{base_url}/plan (POST)",
+                        },
+                    }
+                )
+
             if method == "GET" and path == "/health":
                 return json_response(
                     {

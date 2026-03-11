@@ -61,6 +61,8 @@ app.get("/", (c) => {
     service: "tool-products",
     definition: "Product catalog tool backed by DummyJSON.",
     goal: "Provide products, categories, and category views for agent workflows.",
+    description: "Thin proxy over the DummyJSON public API. Returns a consistent { ok, source, data } envelope. Called by sandbox-runner via a Cloudflare service binding (PRODUCTS_SERVICE) when the agent selects the 'products' tool.",
+    flowPosition: "Tool layer — invoked by sandbox-runner during Step 3 of 3 in the contract flow.",
     links: {
       health: `${baseUrl}/health`,
       products: `${baseUrl}/products`,
