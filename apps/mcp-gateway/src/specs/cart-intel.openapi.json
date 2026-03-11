@@ -3,24 +3,89 @@
   "info": {
     "title": "Cart Intelligence Tool API",
     "version": "1.0.0",
-    "description": "Analyzes products and ranks a shortlist for demo scenarios."
+    "description": "Ranks candidate products into a shortlist using simple scoring logic."
   },
   "servers": [
     {
-      "url": "https://tool-cart-intel.example.workers.dev"
+      "url": "https://cf-tool-cart-intel.example.workers.dev"
     }
   ],
   "paths": {
     "/analyze": {
       "post": {
-        "summary": "Analyze candidate products",
+        "summary": "Analyze and rank candidate products",
         "operationId": "analyzeProducts",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "required": ["targetCurrency", "products"],
+                "properties": {
+                  "targetCurrency": {
+                    "type": "string"
+                  },
+                  "rates": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "number"
+                    }
+                  },
+                  "preferences": {
+                    "type": "object",
+                    "properties": {
+                      "prioritizeRating": {
+                        "type": "boolean"
+                      },
+                      "prioritizeLowerPrice": {
+                        "type": "boolean"
+                      },
+                      "inStockOnly": {
+                        "type": "boolean"
+                      },
+                      "preferredCategory": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["id", "title", "price"],
+                      "properties": {
+                        "id": {
+                          "oneOf": [{ "type": "string" }, { "type": "number" }]
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "category": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "type": "number"
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "rating": {
+                          "type": "number"
+                        },
+                        "stock": {
+                          "type": "integer"
+                        },
+                        "brand": {
+                          "type": "string"
+                        },
+                        "thumbnail": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
