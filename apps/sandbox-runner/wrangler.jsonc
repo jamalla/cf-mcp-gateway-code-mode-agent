@@ -5,6 +5,20 @@
   "observability": {
     "enabled": true
   },
+  "services": [
+    {
+      "binding": "PRODUCTS_SERVICE",
+      "service": "cf-tool-products"
+    },
+    {
+      "binding": "FX_SERVICE",
+      "service": "cf-tool-fx"
+    },
+    {
+      "binding": "CART_INTEL_SERVICE",
+      "service": "cf-tool-cart-intel"
+    }
+  ],
   "vars": {
     "EXECUTOR_MODE": "mock"
   }
