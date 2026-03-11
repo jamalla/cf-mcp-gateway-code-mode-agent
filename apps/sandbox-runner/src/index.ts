@@ -28,6 +28,24 @@ app.use(
   })
 );
 
+app.get("/", (c) => {
+  const baseUrl = new URL(c.req.url).origin;
+
+  return c.json({
+    ok: true,
+    service: "sandbox-runner",
+    definition: "Contract-first execution sandbox for code-mode agent plans.",
+    goal: "Receive a plan from the agent (selected tools + generated TypeScript artifact), call each tool via Cloudflare service bindings, and return a structured execution trace and result.",
+    description: "The sandbox never runs arbitrary code. It interprets the 'selectedTools' list deterministically, calling tool-products, tool-fx, and tool-cart-intel via service bindings (PRODUCTS_SERVICE, FX_SERVICE, CART_INTEL_SERVICE). This avoids cross-workers.dev fetch restrictions and keeps execution safe and observable.",
+    flowPosition: "Step 3 of 3 — final execution layer, called by agent-web after agent-py returns a plan.",
+    executorMode: c.env.EXECUTOR_MODE ?? "mock",
+    links: {
+      health: `${baseUrl}/health`,
+      execute: `${baseUrl}/execute (POST)`
+    }
+  });
+});
+
 app.get("/health", (c) => {
   return c.json({
     ok: true,
