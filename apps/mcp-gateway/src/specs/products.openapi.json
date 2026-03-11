@@ -1,37 +1,54 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Trending Products Tool API",
+    "title": "Product Catalog Tool API",
     "version": "1.0.0",
-    "description": "Fetches public product data for demo e-commerce scenarios."
+    "description": "Retrieves public demo product catalog data for e-commerce scenarios."
   },
   "servers": [
     {
-      "url": "https://tool-products.example.workers.dev"
+      "url": "https://cf-tool-products.example.workers.dev"
     }
   ],
   "paths": {
     "/products": {
       "get": {
-        "summary": "List products",
+        "summary": "List or search products",
         "operationId": "listProducts",
         "parameters": [
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
+            "schema": {"type": "integer", "minimum": 0, "maximum": 100, "default": 10}
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "minimum": 0, "default": 0}
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "string", "enum": ["asc", "desc"]}
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "string"}
           }
         ],
         "responses": {
-          "200": {
-            "description": "Products retrieved successfully"
-          }
+          "200": {"description": "Products retrieved successfully"}
         }
       }
     },
@@ -40,9 +57,23 @@
         "summary": "List categories",
         "operationId": "listCategories",
         "responses": {
-          "200": {
-            "description": "Categories retrieved successfully"
-          }
+          "200": {"description": "Categories retrieved successfully"}
+        }
+      }
+    },
+    "/products/category/{slug}": {
+      "get": {
+        "summary": "List products by category",
+        "operationId": "listProductsByCategory",
+        "parameters": [
+          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}},
+          {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 0, "maximum": 100, "default": 10}},
+          {"name": "skip", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 0, "default": 0}},
+          {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}},
+          {"name": "order", "in": "query", "required": false, "schema": {"type": "string", "enum": ["asc", "desc"]}}
+        ],
+        "responses": {
+          "200": {"description": "Category products retrieved successfully"}
         }
       }
     }
