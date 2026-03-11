@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://cf-tool-products.example.workers.dev"
+      "url": "https://cf-tool-products.to-jamz.workers.dev"
     }
   ],
   "paths": {
