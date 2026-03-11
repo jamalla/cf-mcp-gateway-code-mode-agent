@@ -49,6 +49,23 @@ const passThroughJson = async (url: string) => {
   );
 };
 
+app.get("/", (c) => {
+  const baseUrl = new URL(c.req.url).origin;
+
+  return c.json({
+    ok: true,
+    service: "tool-fx",
+    definition: "FX rates tool backed by Frankfurter.",
+    goal: "Provide exchange rates and currencies for price normalization.",
+    links: {
+      health: `${baseUrl}/health`,
+      rates: `${baseUrl}/rates`,
+      ratesExample: `${baseUrl}/rates?base=USD&symbols=MYR,SAR,EUR`,
+      currencies: `${baseUrl}/currencies`
+    }
+  });
+});
+
 app.get("/health", (c) => {
   return c.json({
     ok: true,

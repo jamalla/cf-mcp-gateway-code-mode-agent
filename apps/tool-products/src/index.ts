@@ -53,6 +53,23 @@ const passThroughJson = async (url: string) => {
   );
 };
 
+app.get("/", (c) => {
+  const baseUrl = new URL(c.req.url).origin;
+
+  return c.json({
+    ok: true,
+    service: "tool-products",
+    definition: "Product catalog tool backed by DummyJSON.",
+    goal: "Provide products, categories, and category views for agent workflows.",
+    links: {
+      health: `${baseUrl}/health`,
+      products: `${baseUrl}/products`,
+      categories: `${baseUrl}/products/categories`,
+      byCategory: `${baseUrl}/products/category/smartphones`
+    }
+  });
+});
+
 app.get("/health", (c) => {
   return c.json({
     ok: true,

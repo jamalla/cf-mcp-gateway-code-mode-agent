@@ -7,6 +7,21 @@ type Bindings = Record<string, never>;
 
 const app = new Hono<{ Bindings: Bindings }>();
 
+app.get("/", (c) => {
+  const baseUrl = new URL(c.req.url).origin;
+
+  return c.json({
+    ok: true,
+    service: "tool-cart-intel",
+    definition: "Internal cart intelligence ranking tool.",
+    goal: "Normalize and rank product candidates into a shortlist.",
+    links: {
+      health: `${baseUrl}/health`,
+      analyze: `${baseUrl}/analyze`
+    }
+  });
+});
+
 app.get("/health", (c) => {
   return c.json({
     ok: true,

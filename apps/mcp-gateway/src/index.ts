@@ -14,6 +14,24 @@ const specMap: Record<string, unknown> = {
   "cart-intel": cartIntelSpec
 };
 
+app.get("/", (c) => {
+  const baseUrl = new URL(c.req.url).origin;
+
+  return c.json({
+    ok: true,
+    service: "mcp-gateway",
+    definition: "Tool specification gateway for code-mode agent flows.",
+    goal: "Expose tool metadata and OpenAPI specs for agent discovery.",
+    links: {
+      health: `${baseUrl}/health`,
+      specs: `${baseUrl}/specs`,
+      productsSpec: `${baseUrl}/specs/products`,
+      fxSpec: `${baseUrl}/specs/fx`,
+      cartIntelSpec: `${baseUrl}/specs/cart-intel`
+    }
+  });
+});
+
 app.get("/health", (c) => {
   return c.json({
     ok: true,
