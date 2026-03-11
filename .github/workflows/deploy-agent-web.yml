@@ -35,5 +35,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Ensure Pages project exists
+        run: pnpm exec wrangler pages project create cf-agent-web --production-branch main || true
+
       - name: Deploy app
         run: pnpm --filter @apps/agent-web run deploy
