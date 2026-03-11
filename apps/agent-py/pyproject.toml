@@ -1,0 +1,14 @@
+[project]
+name = "agent-py"
+version = "0.1.0"
+description = "Thin Python Worker agent for MCP code-mode demo"
+requires-python = ">=3.11"
+dependencies = [
+  "workers",
+  "langchain",
+  "langchain-core",
+  "langchain-openai"
+]
+
+[tool.pywrangler]
+main = "src/entry.py"

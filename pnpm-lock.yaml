@@ -18,6 +18,12 @@ importers:
         specifier: ^5.8.2
         version: 5.9.3
 
+  apps/agent-py:
+    devDependencies:
+      wrangler:
+        specifier: ^4.6.0
+        version: 4.72.0(@cloudflare/workers-types@4.20260310.1)
+
   apps/agent-web:
     dependencies:
       '@copilotkit/react-core':

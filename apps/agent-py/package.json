@@ -1,0 +1,12 @@
+{
+  "name": "@apps/agent-py",
+  "private": true,
+  "scripts": {
+    "dev": "uv run pywrangler dev",
+    "deploy": "uv run pywrangler deploy",
+    "check": "uv run python -m py_compile src/entry.py"
+  },
+  "devDependencies": {
+    "wrangler": "^4.6.0"
+  }
+}
