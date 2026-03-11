@@ -1,0 +1,11 @@
+{
+  "name": "cf-sandbox-runner",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-03-11",
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "EXECUTOR_MODE": "mock"
+  }
+}
