@@ -1,0 +1,92 @@
+name: Add Tool OpenAPI Spec
+description: Propose a new tool for the gateway. A PR adding apps/mcp-gateway/src/specs/<tool-key>.openapi.json is opened automatically for admin review.
+title: "[Tool Spec]: "
+labels: ["tool-spec-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submitting this form triggers the **tool-spec-request** workflow, which:
+
+        1. Validates your answers.
+        2. Builds `apps/mcp-gateway/src/specs/<tool-key>.openapi.json` — from the spec you paste, **or a generated mock spec** if you leave that box empty.
+        3. Closes this issue and opens a **Pull Request** with the file.
+
+        The admin **merges** the PR to publish the tool at `/specs/<tool-key>` (auto-deployed), or **closes** it to reject.
+
+        > ⚠️ Do not paste secrets. Everything here is public.
+
+  - type: input
+    id: tool_key
+    attributes:
+      label: Tool key
+      description: URL key and file name. Lowercase letters, digits, hyphens; 3–48 chars; starts with a letter.
+      placeholder: weather
+    validations:
+      required: true
+
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+      placeholder: Weather Forecast Tool
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      placeholder: Returns current weather and a 3-day forecast for a city.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: 1.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: server_url
+    attributes:
+      label: Tool base URL
+      description: Public https:// base URL of the tool worker/API.
+      placeholder: https://cf-tool-weather.example.workers.dev
+    validations:
+      required: true
+
+  - type: textarea
+    id: operations
+    attributes:
+      label: Operations (used for mock spec)
+      description: |
+        Only used when you leave the OpenAPI spec box empty. One per line: `METHOD /path - summary`.
+        Path params like `{city}` become required path parameters.
+      placeholder: |
+        GET /forecast - Get a 3-day forecast
+        GET /current/{city} - Get current conditions for a city
+      value: |
+        GET /forecast - Get a 3-day forecast
+        GET /current/{city} - Get current conditions for a city
+    validations:
+      required: false
+
+  - type: textarea
+    id: openapi_json
+    attributes:
+      label: OpenAPI spec (JSON, optional)
+      description: Paste a full OpenAPI 3.x JSON document. Leave empty to generate a mock spec from the fields above.
+      render: json
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: This submission contains no secrets or credentials.
+          required: true

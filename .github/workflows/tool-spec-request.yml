@@ -1,0 +1,33 @@
+name: Tool Spec Request (issue -> PR)
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: tool-spec-request-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  open-pr:
+    # Only react to issues created from the "Add Tool OpenAPI Spec" form.
+    if: >-
+      contains(github.event.issue.labels.*.name, 'tool-spec-request') ||
+      startsWith(github.event.issue.title, '[Tool Spec]')
+    runs-on: ubuntu-latest
+    steps:
+      # Default-branch code only; the issue body is read as data by the script.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create tool spec PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const run = require(`${process.env.GITHUB_WORKSPACE}/scripts/mcp-registry/spec-from-issue.cjs`);
+            await run({ github, context, core });

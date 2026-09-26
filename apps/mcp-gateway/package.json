@@ -3,10 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "build": "wrangler deploy --dry-run",
-    "deploy": "wrangler deploy",
-    "check": "tsc --noEmit",
+    "registry": "node ../../scripts/mcp-registry/build.mjs",
+    "dev": "node ../../scripts/mcp-registry/build.mjs && wrangler dev",
+    "build": "node ../../scripts/mcp-registry/build.mjs && wrangler deploy --dry-run",
+    "deploy": "node ../../scripts/mcp-registry/build.mjs && wrangler deploy",
+    "check": "node ../../scripts/mcp-registry/build.mjs && tsc --noEmit",
     "lint": "echo 'no lint configured yet'",
     "cf-typegen": "wrangler types"
   },

@@ -1,0 +1,127 @@
+name: Register Custom MCP Server
+description: Request that your MCP server be added to this gateway's registry. An admin reviews every request before it goes live.
+title: "[MCP Registration]: "
+labels: ["mcp-registration"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for registering an MCP server! When you submit this form, an automated workflow will:
+
+        1. Validate your answers.
+        2. Close this issue and open a **Pull Request** that adds `registry/<server-id>.json`.
+        3. An admin will then **merge** (accept) or **close** (reject) that PR.
+
+        > ⚠️ **Do not paste secrets** (API keys, tokens, passwords). This issue and the generated file are public.
+
+  - type: input
+    id: server_id
+    attributes:
+      label: Server ID
+      description: Unique slug used as the file name and URL key. Lowercase letters, digits and hyphens, 3–48 chars, must start with a letter.
+      placeholder: weather-tools
+    validations:
+      required: true
+
+  - type: input
+    id: name
+    attributes:
+      label: Display name
+      placeholder: Weather Tools MCP
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What does this server do? (max 500 characters)
+      placeholder: Provides current conditions and 7-day forecasts for any city.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Semantic version of your server.
+      placeholder: 1.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: endpoint
+    attributes:
+      label: MCP endpoint URL
+      description: Public HTTPS URL of your MCP server.
+      placeholder: https://weather-mcp.example.com/mcp
+    validations:
+      required: true
+
+  - type: dropdown
+    id: transport
+    attributes:
+      label: Transport
+      options:
+        - streamable-http
+        - sse
+    validations:
+      required: true
+
+  - type: input
+    id: openapi_url
+    attributes:
+      label: OpenAPI spec URL (optional)
+      description: HTTPS URL of an OpenAPI 3.x spec for the tools, if you publish one.
+      placeholder: https://weather-mcp.example.com/openapi.json
+    validations:
+      required: false
+
+  - type: dropdown
+    id: auth_type
+    attributes:
+      label: Authentication
+      description: How clients authenticate. Credentials are configured by the admin out-of-band, never in this issue.
+      options:
+        - none
+        - bearer
+        - api-key
+        - oauth2
+    validations:
+      required: true
+
+  - type: input
+    id: docs_url
+    attributes:
+      label: Documentation / homepage URL (optional)
+      placeholder: https://github.com/you/weather-mcp
+    validations:
+      required: false
+
+  - type: input
+    id: contact
+    attributes:
+      label: Maintainer contact
+      description: Email or URL where the admin can reach you.
+      placeholder: you@example.com
+    validations:
+      required: true
+
+  - type: input
+    id: tags
+    attributes:
+      label: Tags (optional)
+      description: Comma-separated, up to 10.
+      placeholder: weather, forecast
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I own or maintain this MCP server and am authorised to register it.
+          required: true
+        - label: This submission contains no secrets or credentials.
+          required: true
