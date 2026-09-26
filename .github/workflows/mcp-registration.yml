@@ -1,0 +1,34 @@
+name: MCP Server Registration (issue -> PR)
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: mcp-registration-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  register:
+    # Only react to issues created from the "Register Custom MCP Server" form.
+    if: >-
+      contains(github.event.issue.labels.*.name, 'mcp-registration') ||
+      startsWith(github.event.issue.title, '[MCP Registration]')
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out the default branch only (trusted code); the issue body is
+      # read from the event payload as data inside the script.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create registration PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const run = require(`${process.env.GITHUB_WORKSPACE}/scripts/mcp-registry/from-issue.cjs`);
+            await run({ github, context, core });
