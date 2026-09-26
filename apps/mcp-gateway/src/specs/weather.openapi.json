@@ -1,0 +1,84 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Weather Forecast Tool",
+    "version": "1.0.0",
+    "description": "Demo: returns current weather and a 3-day forecast for a city.",
+    "x-generated": "mock spec generated from issue form"
+  },
+  "servers": [
+    {
+      "url": "https://cf-tool-weather.example.workers.dev"
+    }
+  ],
+  "paths": {
+    "/forecast": {
+      "get": {
+        "summary": "Get a 3-day forecast",
+        "operationId": "getForecast",
+        "responses": {
+          "200": {
+            "description": "Successful response (mock)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/current/{city}": {
+      "get": {
+        "summary": "Get current conditions for a city",
+        "operationId": "getCurrentCity",
+        "responses": {
+          "200": {
+            "description": "Successful response (mock)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
